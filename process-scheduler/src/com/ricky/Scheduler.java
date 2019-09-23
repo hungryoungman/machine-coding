@@ -124,8 +124,8 @@ public class Scheduler {
             new Comparator<Job>() {
               @Override
               public int compare(Job j1, Job j2) {
-                int j1Closing = j1.getDeadline() - j1.getDuration();
-                int j2Closing = j2.getDeadline() - j2.getDuration();
+                int j1Closing = j1.getDeadline();
+                int j2Closing = j2.getDeadline();
 
                 if (j1Closing == j2Closing) {
                   if (j1.getPriority().getPriority() == j2.getPriority().getPriority()) {
