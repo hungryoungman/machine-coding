@@ -18,7 +18,7 @@ public class Scheduler {
   }
 
   public void fcfs(List<Job> jobs, int nThreads) {
-    ThreadManager threadManager = new ThreadManager(nThreads);
+    ThreadManager threadManager = new ThreadManager(nThreads, false);
     jobs.forEach(
         job -> {
           try {
@@ -34,7 +34,7 @@ public class Scheduler {
 
   public void sjf(List<Job> jobs, int threads) {
     PriorityQueue<Job> jobPriorityQueue = initSjfQ(jobs, threads);
-    ThreadManager threadManager = new ThreadManager(threads);
+    ThreadManager threadManager = new ThreadManager(threads, false);
     while (!jobPriorityQueue.isEmpty()) {
       try {
         threadManager.assignJobToFreeThread(jobPriorityQueue.poll());
@@ -50,14 +50,15 @@ public class Scheduler {
   private PriorityQueue<Job> initSjfQ(List<Job> jobs, int threads) {
     PriorityQueue<Job> jobPriorityQueue =
         new PriorityQueue<>(
-            11,
+            jobs.size(),
             new Comparator<Job>() {
               @Override
               public int compare(Job j1, Job j2) {
                 if (j1.getDuration() == j2.getDuration()) {
-                  return j2.getPriority().getPriority() - j1.getPriority().getPriority();
+                  return dummyCompareTo(
+                      j2.getPriority().getPriority(), j1.getPriority().getPriority());
                 }
-                return j1.getDuration() - j2.getDuration();
+                return dummyCompareTo(j1.getDuration(), j2.getDuration());
               }
             });
     jobs.forEach(job -> jobPriorityQueue.add(job));
@@ -66,7 +67,7 @@ public class Scheduler {
 
   public void fps(List<Job> jobs, int threads) {
     PriorityQueue<Job> jobPriorityQueue = initFpsQ(jobs, threads);
-    ThreadManager threadManager = new ThreadManager(threads);
+    ThreadManager threadManager = new ThreadManager(threads, false);
     while (!jobPriorityQueue.isEmpty()) {
       try {
         threadManager.assignJobToFreeThread(jobPriorityQueue.poll());
@@ -88,11 +89,13 @@ public class Scheduler {
               public int compare(Job j1, Job j2) {
                 if (j1.getPriority() == j2.getPriority()) {
                   if (j1.getUserType() == j2.getUserType()) {
-                    return j2.getDuration() - j1.getDuration();
+                    return dummyCompareTo(j2.getDuration(), j1.getDuration());
                   }
-                  return j2.getUserType().getPriority() - j1.getUserType().getPriority();
+                  return dummyCompareTo(
+                      j2.getUserType().getPriority(), j1.getUserType().getPriority());
                 }
-                return j2.getPriority().getPriority() - j1.getPriority().getPriority();
+                return dummyCompareTo(
+                    j2.getPriority().getPriority(), j1.getPriority().getPriority());
               }
             });
     jobs.forEach(job -> jobPriorityQueue.add(job));
@@ -101,7 +104,7 @@ public class Scheduler {
 
   public void edf(List<Job> jobs, int threads) {
     PriorityQueue<Job> jobPriorityQueue = initEdfQ(jobs, threads);
-    ThreadManager threadManager = new ThreadManager(threads);
+    ThreadManager threadManager = new ThreadManager(threads, true);
     while (!jobPriorityQueue.isEmpty()) {
       try {
         threadManager.assignJobToFreeThread(jobPriorityQueue.poll());
@@ -126,11 +129,12 @@ public class Scheduler {
 
                 if (j1Closing == j2Closing) {
                   if (j1.getPriority().getPriority() == j2.getPriority().getPriority()) {
-                    return j1.getDuration() - j2.getDuration();
+                    return dummyCompareTo(j1.getDuration(), j2.getDuration());
                   }
-                  return j2.getPriority().getPriority() - j1.getPriority().getPriority();
+                  return dummyCompareTo(
+                      j2.getPriority().getPriority(), j1.getPriority().getPriority());
                 }
-                return j1Closing - j2Closing;
+                return dummyCompareTo(j1Closing, j2Closing);
               }
             });
     jobs.forEach(job -> jobPriorityQueue.add(job));
@@ -143,5 +147,15 @@ public class Scheduler {
       threadToJobs.get(i).forEach(x -> System.out.print(x + " "));
       System.out.println();
     }
+  }
+
+  private int dummyCompareTo(int v1, int v2) {
+    if (v1 < v2) {
+      return -1;
+    }
+    if (v1 > v2) {
+      return 1;
+    }
+    return 0;
   }
 }

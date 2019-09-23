@@ -8,11 +8,13 @@ import java.util.PriorityQueue;
 
 public class ThreadManager {
   private int nThreads;
+  private boolean considerDeadline;
   private PriorityQueue<Thread> threadQueue;
   private HashMap<Integer, List<String>> threadIdToJobName;
 
-  public ThreadManager(int nThreads) {
+  public ThreadManager(int nThreads, boolean considerDeadline) {
     this.nThreads = nThreads;
+    this.considerDeadline = considerDeadline;
     threadIdToJobName = new HashMap<>();
     init();
   }
@@ -36,7 +38,7 @@ public class ThreadManager {
       thread.setClockTime(thread.getClockTime() + assignedJob.getDuration());
     }
 
-    if (thread.getClockTime() + job.getDuration() > job.getDeadline()) {
+    if (considerDeadline && thread.getClockTime() + job.getDuration() > job.getDeadline()) {
       throw new Exception(
           "No thread for Job deadline: "
               + job.getName()); // what is better to throw exception or to sout ?
