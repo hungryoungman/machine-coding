@@ -5,7 +5,7 @@ Solutions for selected questions covered in Machine Coding Interview Rounds
 https://www.andiamogo.com/S-OOD.pdf
 
 # to-do
-1. Car Parking https://www.geeksforgeeks.org/design-parking-lot-using-object-oriented-principles/
+tbc...
 
 # completed
 1. Employee db https://www.geeksforgeeks.org/flipkart-interview-set-8-sde-1/
@@ -14,6 +14,7 @@ https://www.andiamogo.com/S-OOD.pdf
 4. Food Order System https://www.geeksforgeeks.org/flipkart-interview-for-sde-ii-2/
 5. Best Selling Price https://www.geeksforgeeks.org/flipkart-interview-experience-set-41-for-sde-1/
 6. Process Scheduler https://www.geeksforgeeks.org/flipkart-interview-experience-sde-1-experienced/
+7. Car Parking https://www.geeksforgeeks.org/design-parking-lot-using-object-oriented-principles/
 
 
  
