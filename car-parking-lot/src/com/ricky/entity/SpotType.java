@@ -11,6 +11,10 @@ public enum SpotType {
     this.id = id;
   }
 
+  public int getId() {
+    return id;
+  }
+
   public SpotType getByValue(int id) {
     for (SpotType spotType : SpotType.values()) {
       if (spotType.id == id) {

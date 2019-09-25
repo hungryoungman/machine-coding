@@ -3,13 +3,12 @@ package com.ricky.entity;
 public class ParkingSpot {
   private SpotType spotType;
   private boolean isFree;
-  private Coordinate coordinate;
   private int level;
+  private int vehicleId;
 
-  public ParkingSpot(SpotType spotType, Coordinate coordinate, int level) {
+  public ParkingSpot(SpotType spotType) {
     this.spotType = spotType;
-    this.coordinate = coordinate;
-    this.level = level;
+    this.vehicleId = -1;
     isFree = true;
   }
 
@@ -29,19 +28,19 @@ public class ParkingSpot {
     isFree = free;
   }
 
-  public Coordinate getCoordinate() {
-    return coordinate;
-  }
-
-  public void setCoordinate(Coordinate coordinate) {
-    this.coordinate = coordinate;
-  }
-
   public int getLevel() {
     return level;
   }
 
   public void setLevel(int level) {
     this.level = level;
+  }
+
+  public int getVehicleId() {
+    return vehicleId;
+  }
+
+  public void setVehicleId(int vehicleId) {
+    this.vehicleId = vehicleId;
   }
 }
